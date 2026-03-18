@@ -1,0 +1,70 @@
+# ================================
+# Unreal Engine .gitignore
+# ================================
+
+# Build folders
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+Content/
+
+# Visual Studio / IDE
+.vs/
+*.VC.db
+*.VC.opendb
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.log
+
+# Rider / JetBrains
+.idea/
+*.DotSettings.user
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled source files
+*.obj
+*.o
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+*.out
+*.app
+
+# Unreal generated files
+*.opensdf
+*.sdf
+*.sln
+*.tmp
+
+# Crash reports / logs
+*.log
+*.dmp
+
+# Ignore cooked content
+Saved/Cooked/
+Saved/StagedBuilds/
+
+# Ignore auto-generated config backups
+Saved/Config/WindowsEditor/
+
+# ================================
+# KEEP THESE IMPORTANT FILES
+# ================================
+
+# Do NOT ignore these:
+!Config/
+!Content/
+!Source/
+!*.uproject
