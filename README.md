@@ -3,6 +3,7 @@
 ## Overview
 
 A modular interaction system built in Unreal Engine (C++) for ArchViz use cases, focused on scalable object interaction and real-time customization.
+It currently includes a wall customization setup, and the system is designed to scale to other interactable objects like furniture.
 
 ---
 
