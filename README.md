@@ -33,7 +33,7 @@ Uses an **interface-based system (`I_Interact`)** that any actor can implement.
 * **Camera & UI Handling**
 
   * Smooth camera switching (`SetViewTargetWithBlend`)
-  * Game ↔ UI input mode switching
+  * Game -> UI input mode switching
 
 ---
 
