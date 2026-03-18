@@ -58,39 +58,26 @@ void AWallActor::Interact_Implementation(APlayerController* PlayerController)
 {
     if (!PlayerController) return;
 
-   
     FVector WallLocation = GetActorLocation();
-
   
     FVector WallForward = GetActorForwardVector(); 
 
-   
     float Distance = 400.f;
-
    
     FVector CameraPos = WallLocation - FVector(Distance, 0.f, 0.f);
 
- 
     FVector Origin, Extent;
     GetActorBounds(true, Origin, Extent);
     CameraPos.Z = Origin.Z + Extent.Z * 0.5f; 
-
-   
     CameraPos.Z -= 50.f; 
-
-   
     FRotator CameraRot = UKismetMathLibrary::FindLookAtRotation(CameraPos, Origin);
-
-    
     FTransform CameraTransform(CameraRot, CameraPos);
     ACameraActor* TempCamera = PlayerController->GetWorld()->SpawnActor<ACameraActor>(
         ACameraActor::StaticClass(),
         CameraTransform
     );
 
-  
     PlayerController->SetViewTargetWithBlend(TempCamera, 0.5f);
-
    
     FInputModeGameAndUI InputMode;
     InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
