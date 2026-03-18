@@ -26,7 +26,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	 void Interact(APlayerController* PlayerController);
 
-
 	 UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	 void ExitInteract(APlayerController* PlayerController);
 };
