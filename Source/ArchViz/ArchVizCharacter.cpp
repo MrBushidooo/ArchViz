@@ -186,10 +186,6 @@ void AArchVizCharacter::LineTrace() {
 		}
 
 	}
-
-	//FColor LineColor = (HitActor ? FColor::Green : FColor::Red);
-	//DrawDebugLine(GetWorld(), Start, End, LineColor, false, 0.1f, 0, 1.0f);
-
 }
 
 void AArchVizCharacter::Interact()
@@ -197,10 +193,10 @@ void AArchVizCharacter::Interact()
 	if (bInteracting)
 	{
 		
-		if (CurrentInteractingActor && CurrentInteractingActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
+		/*if (CurrentInteractingActor && CurrentInteractingActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
 		{
 	
-		}
+		}*/
 
 		bInteracting = false;
 		CurrentInteractingActor = nullptr;
@@ -248,20 +244,16 @@ void AArchVizCharacter::HandleInteract()
 		bInteracting = false;
 		BP_ShowCrosshair();
 
-
 		PC->SetViewTargetWithBlend(this, 1.0f);
-
 
 		FInputModeGameOnly InputMode;
 		PC->SetInputMode(InputMode);
 		PC->bShowMouseCursor = false;
 
 		if (LastHitActor && LastHitActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
-		{
-			
+		{	
 			II_Interact::Execute_ExitInteract(LastHitActor, PC);
 		}
-
 
 		return;
 	}
@@ -272,7 +264,6 @@ void AArchVizCharacter::HandleInteract()
 		BP_HideInteract();
 		BP_HideCrosshair();
 
-	
 		II_Interact::Execute_Interact(LastHitActor, PC);
 	}
 }
@@ -306,13 +297,11 @@ void AArchVizCharacter::ToggleCameraView()
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (!PC) return;
 
-
 	if (!DefaultViewTarget)
 	{
 		DefaultViewTarget = this;
 	}
 
-	
 	if (!TopDownCamera)
 	{
 		TopDownCamera = Cast<ATopDownCameraActor>(UGameplayStatics::GetActorOfClass(this, ATopDownCameraActor::StaticClass()));
@@ -327,10 +316,8 @@ void AArchVizCharacter::ToggleCameraView()
 	bUsingTopDownCamera = !bUsingTopDownCamera;
 	BP_HideInteract();
 
-	
 	PC->SetViewTargetWithBlend(bUsingTopDownCamera ? TopDownCamera : DefaultViewTarget, 1.0f);
 
-	
 	if (bUsingTopDownCamera)
 	{
 		FInputModeGameAndUI InputMode;
