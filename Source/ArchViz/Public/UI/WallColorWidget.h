@@ -16,7 +16,7 @@ class ARCHVIZ_API UWallColorWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	// Exposed wall reference
+	
 	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
 	AWallActor* TargetWall;
 	
