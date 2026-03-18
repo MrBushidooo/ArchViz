@@ -66,13 +66,13 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 protected:
-	// APawn interface
+
 	virtual void NotifyControllerChanged() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	// End of APawn interface
+
 	//virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 	
 
 public:
@@ -83,7 +83,7 @@ public:
 
 	AActor* LastHitActor;
 
-	// Input binding
+	
 	void HandleInteract();
 
 	//virtual void BeginPlay() override;
@@ -91,7 +91,7 @@ public:
 	//virtual void Tick(float DeltaTime) override;
 
 	void LineTrace();
-	//void Interact();
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TraceDistance = 1200.f;
@@ -109,27 +109,27 @@ public:
 	void BP_HideCrosshair();
 
 
-	void Interact(); // toggle interaction
+	void Interact(); 
 
-	// Camera for viewing walls
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	UCameraComponent* WallCamera;
 
-	// State to track whether we are in wall view mode
+	
 	bool bInteracting;
 
-	// Reference to last focused wall
+	
 	AActor* CurrentInteractingActor;
 
 	bool bUsingTopDownCamera = false;
 	AActor* DefaultViewTarget = nullptr;
 	class ATopDownCameraActor* TopDownCamera = nullptr;
 
-	// Forward input to top-down camera
+	
 	void RotateTopDownCamera(const FInputActionValue& Value);
 	void ZoomTopDownCamera(const FInputActionValue& Value);
 
-	// Function to toggle camera
+	
 	void ToggleCameraView();
 };
 
