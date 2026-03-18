@@ -26,7 +26,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* CameraPivot;
 
-	// Optional: rotation speed
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	float RotationSpeed = 50.f;
 
