@@ -106,9 +106,7 @@ void AWallActor::ExitInteract_Implementation(APlayerController* PlayerController
     {
         ColorPaletteWidget->RemoveFromParent();
         ColorPaletteWidget = nullptr;
-    }
-
-    
+    }    
 
     UE_LOG(LogTemp, Log, TEXT("WallActor: Exited interaction mode."));
 }
