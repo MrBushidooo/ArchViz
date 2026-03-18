@@ -18,7 +18,7 @@ ATopDownCameraActor::ATopDownCameraActor()
     SpringArm->TargetArmLength = 1000.f;
     SpringArm->bDoCollisionTest = false;
     SpringArm->bUsePawnControlRotation = false;
-    SpringArm->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f)); // Slight tilt, not full -90
+    SpringArm->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f)); 
 
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
