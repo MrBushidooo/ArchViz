@@ -29,7 +29,7 @@ public:
 
 	virtual void ExitInteract_Implementation(APlayerController* PlayerController) override;
 
-	// Function to apply a color/material change
+	
 	UFUNCTION(BlueprintCallable, Category = "Wall")
 	void ApplyColor(FLinearColor NewColor);
 
