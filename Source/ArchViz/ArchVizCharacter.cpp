@@ -105,13 +105,13 @@ void AArchVizCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AArchVizCharacter::Look);
 
-		// ? Interact (E key, bound via InteractAction asset in editor)
+		//Interact
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AArchVizCharacter::HandleInteract);
 
-		// Toggle camera
+		//Toggle camera
 		PlayerInputComponent->BindAction("ToggleCamera", IE_Pressed, this, &AArchVizCharacter::ToggleCameraView);
 
-		// Bind top-down camera input
+		//Bind topdown camera input
 		EnhancedInputComponent->BindAction(RotateCameraAction, ETriggerEvent::Triggered, this, &AArchVizCharacter::RotateTopDownCamera);
 		EnhancedInputComponent->BindAction(ZoomCameraAction, ETriggerEvent::Triggered, this, &AArchVizCharacter::ZoomTopDownCamera);
 
@@ -178,14 +178,10 @@ void AArchVizCharacter::LineTrace() {
 		LastHitActor = HitActor;
 
 		if (HitActor && HitActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass())) {
-
-			//UI focus logic
 			BP_ShowInteract();
 		}
 
 		else {
-
-			//UI unfocus logic
 			BP_HideInteract();
 		}
 
@@ -200,18 +196,17 @@ void AArchVizCharacter::Interact()
 {
 	if (bInteracting)
 	{
-		// Exit interaction
+		
 		if (CurrentInteractingActor && CurrentInteractingActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
 		{
-			// Optional: you can add an "ExitInteract" to your interface if needed
-			// For now, just reset state here
+	
 		}
 
 		bInteracting = false;
 		CurrentInteractingActor = nullptr;
 
 
-		// Restore game input
+		
 		if (APlayerController* PC = Cast<APlayerController>(GetController()))
 		{
 			PC->SetInputMode(FInputModeGameOnly());
@@ -220,7 +215,7 @@ void AArchVizCharacter::Interact()
 	}
 	else
 	{
-		// Enter interaction
+		
 		if (LastHitActor && LastHitActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
 		{
 			BP_HideInteract();
@@ -238,34 +233,32 @@ void AArchVizCharacter::Interact()
 void AArchVizCharacter::HandleInteract()
 {
 	GEngine->AddOnScreenDebugMessage(
-		-1,              // key (-1 = always add a new one instead of updating)
-		2.0f,            // time in seconds
-		FColor::Green,   // text color
-		TEXT("E Pressed!")  // message
+		-1,             
+		2.0f,           
+		FColor::Green,   
+		TEXT("E Pressed!")  
 	);
 
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (!PC) return;
 
-	// If already interacting ? exit
+	
 	if (bInteracting)
 	{
 		bInteracting = false;
 		BP_ShowCrosshair();
 
-		// Restore camera to player
+
 		PC->SetViewTargetWithBlend(this, 1.0f);
 
-		// Restore game input
+
 		FInputModeGameOnly InputMode;
 		PC->SetInputMode(InputMode);
 		PC->bShowMouseCursor = false;
 
-		// (Optional) Tell the actor to close its UI (if needed)
 		if (LastHitActor && LastHitActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
 		{
-			// If your interactable has a "Close" or "Exit" method, call it here
-			// Example: II_Interact::Execute_OnExit(LastHitActor, PC);
+			
 			II_Interact::Execute_ExitInteract(LastHitActor, PC);
 		}
 
@@ -273,14 +266,13 @@ void AArchVizCharacter::HandleInteract()
 		return;
 	}
 
-	// If not interacting and we have a valid actor
 	if (LastHitActor && LastHitActor->GetClass()->ImplementsInterface(UI_Interact::StaticClass()))
 	{
 		bInteracting = true;
 		BP_HideInteract();
 		BP_HideCrosshair();
 
-		// Call the actor’s interact function
+	
 		II_Interact::Execute_Interact(LastHitActor, PC);
 	}
 }
@@ -290,7 +282,7 @@ void AArchVizCharacter::RotateTopDownCamera(const FInputActionValue& Value)
 	if (bUsingTopDownCamera && TopDownCamera)
 	{
 		float AxisValue = Value.Get<float>();
-		//if (FMath::Abs(Value) > KINDA_SMALL_NUMBER)
+	
 		{
 			UE_LOG(LogTemp, Warning, TEXT("yes please Rotate input: %f"), AxisValue);
 			TopDownCamera->RotateCamera(AxisValue);
@@ -307,85 +299,20 @@ void AArchVizCharacter::ZoomTopDownCamera(const FInputActionValue& Value)
 	}
 }
 
-/*void AArchVizCharacter::ToggleCameraView()
-{
-	APlayerController* PC = Cast<APlayerController>(GetController());
-	if (!PC) return;
 
-	// Save player as default view target
-	if (!DefaultViewTarget)
-	{
-		DefaultViewTarget = this;
-	}
-
-	// Find TopDownCamera actor in level
-	if (!TopDownCamera)
-	{
-		TopDownCamera = Cast<ATopDownCameraActor>(UGameplayStatics::GetActorOfClass(this, ATopDownCameraActor::StaticClass()));
-		if (!TopDownCamera)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("No TopDownCameraActor found in level!"));
-			return;
-		}
-	}
-
-	// Toggle camera
-	if (!bUsingTopDownCamera)
-	{
-		// Switch to top-down camera
-		PC->SetViewTargetWithBlend(TopDownCamera, 1.0f); // smooth blend
-		bUsingTopDownCamera = true;
-
-		// Optional: enable mouse cursor/input for orbit
-		FInputModeGameAndUI InputMode;
-		PC->SetInputMode(InputMode);
-		PC->bShowMouseCursor = true;
-	}
-	else
-	{
-		// Switch back to player camera
-		PC->SetViewTargetWithBlend(DefaultViewTarget, 1.0f);
-		bUsingTopDownCamera = false;
-
-		// Restore normal player input
-		FInputModeGameOnly InputMode;
-		PC->SetInputMode(InputMode);
-		PC->bShowMouseCursor = false;
-	}
-}*/
-
-/*void AArchVizCharacter::ToggleCameraView()
-{
-	APlayerController* PC = Cast<APlayerController>(GetController());
-	if (!PC || !TopDownCamera) return;
-
-	bUsingTopDownCamera = !bUsingTopDownCamera;
-
-	PC->SetViewTargetWithBlend(bUsingTopDownCamera ? TopDownCamera : this, 0.5f);
-
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
-	{
-		if (bUsingTopDownCamera)
-			Subsystem->AddMappingContext(TopDownCameraMappingContext, 1);
-		else
-			Subsystem->RemoveMappingContext(TopDownCameraMappingContext);
-	}
-
-	PC->bShowMouseCursor = bUsingTopDownCamera;
-}*/
 
 void AArchVizCharacter::ToggleCameraView()
 {
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (!PC) return;
 
-	// Save the player as default view target (first time only)
+
 	if (!DefaultViewTarget)
 	{
 		DefaultViewTarget = this;
 	}
 
-	// Find TopDownCamera actor in level if not assigned
+	
 	if (!TopDownCamera)
 	{
 		TopDownCamera = Cast<ATopDownCameraActor>(UGameplayStatics::GetActorOfClass(this, ATopDownCameraActor::StaticClass()));
@@ -396,14 +323,14 @@ void AArchVizCharacter::ToggleCameraView()
 		}
 	}
 
-	// Toggle camera
+	
 	bUsingTopDownCamera = !bUsingTopDownCamera;
 	BP_HideInteract();
 
-	// Switch view target smoothly
+	
 	PC->SetViewTargetWithBlend(bUsingTopDownCamera ? TopDownCamera : DefaultViewTarget, 1.0f);
 
-	// Set input mode & cursor visibility
+	
 	if (bUsingTopDownCamera)
 	{
 		FInputModeGameAndUI InputMode;
