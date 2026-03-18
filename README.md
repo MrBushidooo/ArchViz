@@ -44,6 +44,3 @@ Uses an **interface-based system (`I_Interact`)** that any actor can implement.
 
 ---
 
-## Demo
-
-*(Add your video link here)*
