@@ -82,7 +82,6 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 	AActor* LastHitActor;
-
 	
 	void HandleInteract();
 
@@ -91,7 +90,6 @@ public:
 	//virtual void Tick(float DeltaTime) override;
 
 	void LineTrace();
-	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TraceDistance = 1200.f;
@@ -108,17 +106,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Interaction")
 	void BP_HideCrosshair();
 
-
 	void Interact(); 
-
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	UCameraComponent* WallCamera;
 
-	
 	bool bInteracting;
 
-	
 	AActor* CurrentInteractingActor;
 
 	bool bUsingTopDownCamera = false;
