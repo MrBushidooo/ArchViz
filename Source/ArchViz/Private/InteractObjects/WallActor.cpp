@@ -49,7 +49,7 @@ void AWallActor::ApplyColor(FLinearColor NewColor)
 {
     if (WallMaterial)
     {
-        // Assumes your material has a VectorParameter named "BaseColor"
+        
         WallMaterial->SetVectorParameterValue(TEXT("BaseColor"), NewColor);
     }
 }
@@ -58,45 +58,40 @@ void AWallActor::Interact_Implementation(APlayerController* PlayerController)
 {
     if (!PlayerController) return;
 
-    // Wall center
+   
     FVector WallLocation = GetActorLocation();
 
-    // Forward direction of the wall
-    FVector WallForward = GetActorForwardVector(); // with yaw 90, this points along +Y
+  
+    FVector WallForward = GetActorForwardVector(); 
 
-    // Distance from wall to place camera
+   
     float Distance = 400.f;
 
-    // Place camera in front of wall (opposite of forward)
-    //FVector CameraPos = WallLocation + WallForward * Distance;
+   
     FVector CameraPos = WallLocation - FVector(Distance, 0.f, 0.f);
 
-    // Raise the camera slightly to center it vertically on the wall
+ 
     FVector Origin, Extent;
     GetActorBounds(true, Origin, Extent);
-    CameraPos.Z = Origin.Z + Extent.Z * 0.5f; // center vertically
+    CameraPos.Z = Origin.Z + Extent.Z * 0.5f; 
 
-    // Decrease the height a bit (move camera down)
-    CameraPos.Z -= 50.f; // tweak this value as needed
+   
+    CameraPos.Z -= 50.f; 
 
-    // Make camera look at wall center
+   
     FRotator CameraRot = UKismetMathLibrary::FindLookAtRotation(CameraPos, Origin);
 
-    // Spawn a temporary camera actor
+    
     FTransform CameraTransform(CameraRot, CameraPos);
     ACameraActor* TempCamera = PlayerController->GetWorld()->SpawnActor<ACameraActor>(
         ACameraActor::StaticClass(),
         CameraTransform
     );
 
-    // Smoothly switch view
+  
     PlayerController->SetViewTargetWithBlend(TempCamera, 0.5f);
 
-    // Switch to UI mode
-    /*PlayerController->SetInputMode(FInputModeUIOnly());
-    PlayerController->bShowMouseCursor = true;*/
-
-    // --- Switch input to Game+UI so E still works ---
+   
     FInputModeGameAndUI InputMode;
     InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
     PlayerController->SetInputMode(InputMode);
@@ -126,14 +121,7 @@ void AWallActor::ExitInteract_Implementation(APlayerController* PlayerController
         ColorPaletteWidget = nullptr;
     }
 
-    // If you spawn a temporary camera, clean it up here as well
-    /*
-    if (TempCamera && TempCamera->IsValidLowLevel())
-    {
-        TempCamera->Destroy();
-        TempCamera = nullptr;
-    }
-    */
+    
 
     UE_LOG(LogTemp, Log, TEXT("WallActor: Exited interaction mode."));
 }
